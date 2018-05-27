@@ -6,6 +6,12 @@ For HF bands the right way is to use TC1 as a counter of an external signal' pul
 The algorithm also detects when input frequency is rapidly changes (e.g. you tune it) and increases refresh rate of LCD indicating.
 
 
+## Pinout
+Pin | Function
+--- | --------
+PD5 (Arduino's pin 5) | Input signal
+
+
 ## Build and run
 Build and run via [PlatformIO](https://platformio.org/). In `platformio.ini` specify parameters (e.g. F_CPU or programmer). Then run:
 ```bash

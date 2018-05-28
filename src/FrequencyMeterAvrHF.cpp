@@ -31,6 +31,11 @@ double previous_frequency = 0.0;
 #define TIMER2_ADDITIONAL_PRESCALER_TUNING_MODE 25
 uint8_t timer2_additional_prescaler = TIMER2_ADDITIONAL_PRESCALER_TUNING_MODE;
 uint8_t timer2_additional_prescaler_cnt = 0;
+/*
+ *  Changing in 0.25% of current frequency mean that user is tuning right now
+ *  so we need to increase refresh rate
+ */
+#define FREQUENCY_OFFSET 0.0025
 
 /*
  *  256 ticks of Timer2 (w/ 1024 prescaler and 16 MHz clock) are equal to
@@ -47,11 +52,6 @@ uint8_t timer2_additional_prescaler_cnt = 0;
  *  Constant adjustments because of errors
  */
 #define ERROR_ADJUSTMENT 1.0  // 1.000136814232641724
-/*
- *  Changing in 0.25% of current frequency mean that user is tuning right now
- *  so we need to increase refresh rate
- */
-#define FREQUENCY_OFFSET 0.0025
 
 
 
@@ -100,7 +100,8 @@ ISR (TIMER2_OVF_vect, ISR_NAKED) {
     ticks_accumulator += timer1_overflows_counter*65535 + TCNT1;
     timer1_overflows_counter = 0;
 
-    // additional prescaler so we display the measured frequency much less often
+    // Additional prescaler so we display the measured frequency much less often
+    // (also averaging)
     if (++timer2_additional_prescaler_cnt == timer2_additional_prescaler) {
         timer2_additional_prescaler_cnt = 0;
 

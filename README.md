@@ -1,5 +1,5 @@
 ## Overview
-Frequency meter firmware for ATmega328P MCU. It uses 16-bit Timer/Counter1 (TC1) as a main measuring part of the MCU. Can be used as a standalone solution (no need in PC - LCD is used for indication). See [frequency-meter-avr-lf](https://github.com/ussserrr/frequency-meter-avr-lf) for measuring an LF band.
+Frequency meter firmware for ATmega328P MCU. It uses 16-bit Timer/Counter1 (TC1) as a main measuring part of the MCU. Can be used as a standalone solution (no need in PC - HD44780 compatible LCD is used for indication). See [frequency-meter-avr-lf](https://github.com/ussserrr/frequency-meter-avr-lf) for measuring an LF band.
 
 For HF bands the right way is to use TC1 as a counter of an external signal' pulses. Measure out a 1-second interval (or any other known) by another available timer/counter (TC0 or TC2) and you can determine the frequency as simply as
 ```
@@ -15,14 +15,14 @@ accuracy ~ --------
 ```
 value so decreasing the period (i.e. increasing an input frequency) we get better results. We also use an averaging to get more accurate results.
 
-The algorithm also detects when input frequency is rapidly changes (e.g. you tune it) and increases refresh rate of LCD indicating.
+The algorithm also detects when input frequency is rapidly changes (e.g. you tune it) and increases refresh rate of LCD indications.
 
 
 ## Pinout
 Pin | Function
 --- | --------
 PD5 (Arduino's pin 5) | Input signal
-Arduino's 0, 1, 2, 3, 4, 6, 7 pins (respective PDx pins) | RS, RW, E, D4-7
+Arduino's 0, 1, 2, 3, 4, 6, 7 pins (respective PDx pins) | RS, RW, E, D4-7 (HD44780 LCD, LiquidCrystal library)
 
 
 ## Build and run
@@ -37,7 +37,7 @@ $ pio run -t upload  # flash using on-board programmer
 
 
 ## Limits and accuracy
-Check this [spreadsheet](https://docs.google.com/spreadsheets/d/1x5buIiSePPuyIJX-X4MWf-NA7JHJYz23IA_RD0JLFfs/edit?usp=sharing) to see some test measurements (first page). Generally, the working interval is [1 kHz - 8 MHz], but wires and connections introduce a great impact on stability and accuracy. For example, measurements mentioned above are made with a pretty long coaxial cable and maximal frequency is about 5.6 MHz. But with some much lesser wire, I was able to measure an 8 MHz signal.
+Check this [spreadsheet](https://docs.google.com/spreadsheets/d/1x5buIiSePPuyIJX-X4MWf-NA7JHJYz23IA_RD0JLFfs/edit?usp=sharing) to see some test measurements (first page). Generally, the working interval is [1 kHz - 8 MHz], but wires and connections introduce a great impact on stability and accuracy, especially at high frequencies. For example, measurements mentioned above are made with a pretty long coaxial cable and maximal frequency is about 5.6 MHz. But with some much lesser wire, I was able to measure an 8 MHz signal.
 
 Also, you can replace crystal oscillator with another one (and even overclock a little bit) to increase maximal measurable frequency (remember to adjust `TIMER2_ADJUSTMENT` macro for correct calculations and `board_build.f_cpu` in `platformio.ini` file).
 

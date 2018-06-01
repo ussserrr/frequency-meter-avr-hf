@@ -46,6 +46,8 @@ uint8_t timer2_additional_prescaler_cnt = 0;
  *    25 MHz - 95.3674316406 (overclocked MCU, you may need to increase Vcc
  *                            voltage, but it will make possible to measure
  *                            higher frequencies)
+ *    32 MHz - 122.0703125 (was tested with external clock generator, you also
+ *                          need to edit FUSE bytes)
  */
 #define TIMER2_ADJUSTMENT 61.03515625
 /*

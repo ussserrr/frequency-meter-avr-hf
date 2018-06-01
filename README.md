@@ -37,8 +37,8 @@ $ pio run -t upload  # flash using on-board programmer
 
 
 ## Limits and accuracy
-Check this [spreadsheet](https://docs.google.com/spreadsheets/d/1x5buIiSePPuyIJX-X4MWf-NA7JHJYz23IA_RD0JLFfs/edit?usp=sharing) to see some test measurements (first page). Generally, the working interval is [1 kHz - 8 MHz], but wires and connections introduce a great impact on stability and accuracy, especially at high frequencies. For example, measurements mentioned above are made with a pretty long coaxial cable and maximal frequency is about 5.6 MHz. But with some much lesser wire, I was able to measure an 8 MHz signal.
+Check this [spreadsheet](https://docs.google.com/spreadsheets/d/1x5buIiSePPuyIJX-X4MWf-NA7JHJYz23IA_RD0JLFfs/edit?usp=sharing) to see some test measurements (first page). Generally, the working interval for default 16 MHz crystal is [1 kHz - 8 MHz], but wires and connections introduce a great impact on stability and accuracy, especially at high frequencies. For example, measurements mentioned above are made with a pretty long coaxial cable and maximal frequency is about 5.6 MHz. But with some much lesser wire, I was able to measure an 8 MHz signal.
 
-Also, you can replace crystal oscillator with another one (and even overclock a little bit) to increase maximal measurable frequency (remember to adjust `TIMER2_ADJUSTMENT` macro for correct calculations and `board_build.f_cpu` in `platformio.ini` file).
+Also, you can replace crystal oscillator with another one (and even overclock a little bit) to increase maximal measurable frequency (remember to adjust `TIMER2_ADJUSTMENT` macro for correct calculations and `board_build.f_cpu` in `platformio.ini` file). For testing purposes, I also applied external clock to MCU from generator and was able to achieve 32 MHz frequency. With this, I have measured a 14.3 MHz input signal and possibly may increase it up to 16 MHz (based on previous measurements results).
 
 While TC1 simply counts input ticks (triggering by voltage level), MCU is able to measure not only strict square signals - sin wave, saw, triangle forms are also can be correctly recognized within certain limits of distortions.
